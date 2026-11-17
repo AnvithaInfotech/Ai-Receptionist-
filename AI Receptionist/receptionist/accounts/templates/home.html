@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>SNGCE | Excellence in Engineering Education</title>
+    <link rel="shortcut icon" type="image/icon" href="{% static 'images/college_logo.jpg' %}" style="border-radius: 0.75rem;">
+    
+    <!-- Tailwind + Google Fonts + Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        body {
+            background: #f9fafb;
+            scroll-behavior: smooth;
+        }
+        /* custom gradient & glass effects */
+        .hero-glow {
+            background: radial-gradient(circle at 80% 20%, rgba(79, 70, 229, 0.08), rgba(6, 182, 212, 0.02));
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .btn-gradient {
+            background: linear-gradient(105deg, #4f46e5 0%, #7c3aed 100%);
+            transition: all 0.25s ease;
+        }
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -12px rgba(79, 70, 229, 0.5);
+        }
+        .feature-card {
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.12);
+        }
+        .event-card {
+            transition: all 0.3s ease;
+            border-radius: 1.5rem;
+        }
+        .event-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 30px -15px rgba(0, 0, 0, 0.2);
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up {
+            animation: fadeUp 0.6s ease forwards;
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .stat-badge {
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Sticky Header with glassmorphism -->
+    <header class="sticky top-0 z-50 glass-nav shadow-sm">
+        <div class="container mx-auto px-5 lg:px-8 py-4 flex flex-wrap justify-between items-center gap-3">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-xl overflow-hidden shadow-md bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                    <img src="{% static 'images/college_logo.jpg' %}" alt="Logo" class="w-full h-full object-cover">
+                </div>
+                <div class="leading-tight">
+                    <h1 class="text-xl lg:text-2xl font-extrabold tracking-tight text-gray-800">SNGCE</h1>
+                    <p class="text-xs text-gray-500 hidden sm:block">Sree Narayana Gurukulam College of Engg.</p>
+                </div>
+            </div>
+            <nav class="hidden md:block">
+                <ul class="flex items-center space-x-1 lg:space-x-2">
+                    <li><a href="{% url 'h' %}" class="px-4 py-2 rounded-full font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition">Home</a></li>
+                    <li><a href="{% url 'course' %}" class="px-4 py-2 rounded-full font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition">Courses</a></li>
+                    <li><a href="{% url 'bot' %}" class="px-4 py-2 rounded-full font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition"><i class="fas fa-headset text-indigo-500 mr-1"></i> Help</a></li>
+                    <li><a href="{% url 'enquiry' %}" class="ml-2 btn-gradient text-white px-5 py-2 rounded-full shadow-md transition-all"><i class="fas fa-pen-alt mr-1"></i> Enquire Now</a></li>
+                    <li><a href="{% url 'login' %}" class="border border-gray-300 hover:border-indigo-400 px-5 py-2 rounded-full text-gray-700 hover:bg-indigo-50 transition"><i class="fas fa-user-circle mr-1"></i> Login</a></li>
+                </ul>
+            </nav>
+            <!-- mobile toggle -->
+            <div class="md:hidden">
+                <button id="mobileMenuBtn" class="text-gray-700 text-2xl focus:outline-none"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+        <!-- Mobile menu dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-100 py-4 px-5 shadow-lg">
+            <ul class="flex flex-col space-y-3">
+                <li><a href="{% url 'h' %}" class="block py-2 text-gray-800 font-medium"><i class="fas fa-home w-5 mr-2"></i>Home</a></li>
+                <li><a href="{% url 'course' %}" class="block py-2 text-gray-800 font-medium"><i class="fas fa-book-open w-5 mr-2"></i>Courses</a></li>
+                <li><a href="{% url 'bot' %}" class="block py-2 text-gray-800 font-medium"><i class="fas fa-headset w-5 mr-2"></i>Help</a></li>
+                <li><a href="{% url 'enquiry' %}" class="block py-2 text-center bg-indigo-600 text-white rounded-xl mt-1">Enquire Now</a></li>
+                <li><a href="{% url 'login' %}" class="block py-2 text-center border border-gray-300 rounded-xl mt-1">Login</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section with modern layout & gradient -->
+        <section class="relative overflow-hidden hero-glow pt-12 pb-20 lg:pt-20 lg:pb-28">
+            <div class="absolute top-0 right-0 w-96 h-96 bg-indigo-200 rounded-full blur-3xl opacity-20 -z-0"></div>
+            <div class="absolute bottom-0 left-0 w-80 h-80 bg-purple-200 rounded-full blur-3xl opacity-20"></div>
+            <div class="container mx-auto px-5 lg:px-8 relative z-10">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="animate-fade-up">
+                        <span class="inline-block px-4 py-1.5 rounded-full bg-indigo-100 text-indigo-800 text-xs font-semibold mb-5"><i class="fas fa-award mr-1"></i> NAAC A+ Accredited</span>
+                        <h2 class="text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight mb-5">Shape Tomorrow with <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Innovation & Wisdom</span></h2>
+                        <p class="text-gray-600 text-lg leading-relaxed mb-8 border-l-4 border-indigo-500 pl-5">At SNGCE, we blend academic rigor with holistic development — empowering students to become global leaders through state-of-the-art infrastructure, industry partnerships, and a vibrant campus life.</p>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="{% url 'course' %}" class="btn-gradient text-white px-7 py-3 rounded-xl shadow-lg inline-flex items-center gap-2 transition-all"><i class="fas fa-graduation-cap"></i> Explore Programs</a>
+                            <a href="#eventsSection" class="border-2 border-indigo-300 text-indigo-700 hover:bg-indigo-50 px-6 py-3 rounded-xl inline-flex items-center gap-2 transition font-medium"><i class="fas fa-calendar-alt"></i> Upcoming Events</a>
+                        </div>
+                        <!-- stats row with modern cards -->
+                        <div class="grid grid-cols-3 gap-4 mt-12">
+                            <div class="stat-badge rounded-2xl p-4 text-center shadow-sm hover:shadow transition">
+                                <i class="fas fa-laptop-code text-3xl text-indigo-600 mb-2"></i>
+                                <h3 class="text-2xl font-black text-gray-800">120+</h3>
+                                <p class="text-xs text-gray-500">Academic Programs</p>
+                            </div>
+                            <div class="stat-badge rounded-2xl p-4 text-center shadow-sm hover:shadow transition">
+                                <i class="fas fa-user-tie text-3xl text-emerald-600 mb-2"></i>
+                                <h3 class="text-2xl font-black text-gray-800">650+</h3>
+                                <p class="text-xs text-gray-500">Expert Faculty</p>
+                            </div>
+                            <div class="stat-badge rounded-2xl p-4 text-center shadow-sm hover:shadow transition">
+                                <i class="fas fa-users text-3xl text-amber-600 mb-2"></i>
+                                <h3 class="text-2xl font-black text-gray-800">6000+</h3>
+                                <p class="text-xs text-gray-500">Active Students</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative flex justify-center animate-fade-up delay-100">
+                        <div class="rounded-3xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition duration-500 border-4 border-white/80 floating">
+                            <img src="{% static 'images/sngce.avif' %}" alt="SNGCE Campus" class="w-full h-auto object-cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Us Section with icons & hover -->
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-5 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-14">
+                    <span class="text-indigo-600 font-semibold tracking-wide text-sm"><i class="fas fa-medal mr-1"></i> Core Strengths</span>
+                    <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mt-2">Why SNGCE Stands Out</h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto mt-4 rounded-full"></div>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-7">
+                    <div class="group p-6 rounded-2xl bg-gray-50 hover:bg-white transition-all hover:shadow-xl text-center">
+                        <div class="w-14 h-14 bg-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-indigo-600 transition"><i class="fas fa-microchip text-2xl text-indigo-700 group-hover:text-white"></i></div>
+                        <h3 class="text-xl font-bold mb-2">Research Incubation</h3>
+                        <p class="text-gray-500 text-sm">Centers of Excellence with funded R&D projects & innovation labs.</p>
+                    </div>
+                    <div class="group p-6 rounded-2xl bg-gray-50 hover:bg-white transition-all hover:shadow-xl text-center">
+                        <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-emerald-600 transition"><i class="fas fa-handshake text-2xl text-emerald-700 group-hover:text-white"></i></div>
+                        <h3 class="text-xl font-bold mb-2">Industry Connect</h3>
+                        <p class="text-gray-500 text-sm">MoUs with 100+ corporates, internships, and live projects.</p>
+                    </div>
+                    <div class="group p-6 rounded-2xl bg-gray-50 hover:bg-white transition-all hover:shadow-xl text-center">
+                        <div class="w-14 h-14 bg-amber-100 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-amber-600 transition"><i class="fas fa-globe text-2xl text-amber-700 group-hover:text-white"></i></div>
+                        <h3 class="text-xl font-bold mb-2">Global Exposure</h3>
+                        <p class="text-gray-500 text-sm">Student exchange, international conferences & global summits.</p>
+                    </div>
+                    <div class="group p-6 rounded-2xl bg-gray-50 hover:bg-white transition-all hover:shadow-xl text-center">
+                        <div class="w-14 h-14 bg-rose-100 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-600 transition"><i class="fas fa-chart-line text-2xl text-rose-700 group-hover:text-white"></i></div>
+                        <h3 class="text-xl font-bold mb-2">100% Placements</h3>
+                        <p class="text-gray-500 text-sm">Top recruiters: TCS, Infosys, Amazon, Microsoft & more.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Section - refined card design with rich details -->
+        <section id="eventsSection" class="py-20 bg-gradient-to-b from-gray-50 to-white">
+            <div class="container mx-auto px-5 lg:px-8">
+                <div class="text-center mb-14">
+                    <span class="inline-flex items-center gap-1 bg-purple-100 text-purple-800 text-sm rounded-full px-4 py-1.5"><i class="fas fa-bell"></i> Stay Updated</span>
+                    <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mt-3">Campus Events & Highlights</h2>
+                    <p class="text-gray-500 max-w-xl mx-auto mt-2">Be part of fests, workshops, seminars, and cultural galore at SNGCE.</p>
+                </div>
+
+                {% if events %}
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-7">
+                    {% for event in events %}
+                    <div class="event-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 group transition-all">
+                        <div class="relative h-48 overflow-hidden">
+                            {% if event.img %}
+                            <img src="{{ event.img.url }}" alt="{{ event.title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            {% else %}
+                            <div class="w-full h-full bg-gradient-to-br from-indigo-100 to-purple-100 flex flex-col items-center justify-center">
+                                <i class="fas fa-calendar-alt text-4xl text-indigo-300"></i>
+                                <span class="text-gray-400 text-xs mt-2">Event visual</span>
+                            </div>
+                            {% endif %}
+                            <div class="absolute top-3 left-3">
+                                <span class="bg-white/90 backdrop-blur-sm text-indigo-800 text-xs font-bold px-3 py-1 rounded-full shadow">{{ event.cat|default:"Event" }}</span>
+                            </div>
+                            <div class="absolute bottom-3 right-3 bg-black/50 text-white text-xs rounded-full px-2 py-1 backdrop-blur-sm">
+                                <i class="far fa-calendar-alt mr-1"></i> {{ event.date|date:"d M, Y" }}
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-lg font-bold text-gray-800 mb-2 line-clamp-1">{{ event.title }}</h3>
+                            <p class="text-gray-500 text-sm mb-4 line-clamp-2">{{ event.description|truncatechars:95 }}</p>
+                            <div class="flex items-center justify-between text-xs text-gray-500 border-t border-gray-100 pt-3 mt-1">
+                                <div class="flex items-center gap-1"><i class="fas fa-clock text-indigo-500"></i> <span>{{ event.time|default:"TBA" }}</span></div>
+                                <div class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-rose-500"></i> <span class="truncate max-w-[100px]">{{ event.venue|default:"Campus" }}</span></div>
+                            </div>
+                        </div>
+                        <div class="px-5 pb-4">
+                            <a href="#" class="text-indigo-600 text-xs font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">View details <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="text-center mt-12">
+                    <a href="#" class="inline-flex items-center gap-2 px-6 py-2.5 border border-indigo-300 rounded-full text-indigo-700 hover:bg-indigo-50 transition"><i class="fas fa-ticket-alt"></i> View Full Calendar <i class="fas fa-chevron-right text-xs"></i></a>
+                </div>
+                {% else %}
+                <div class="bg-white/70 backdrop-blur-sm rounded-3xl p-12 text-center shadow-md border border-gray-200">
+                    <div class="w-20 h-20 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-calendar-times text-3xl text-indigo-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-800">No upcoming events</h3>
+                    <p class="text-gray-500 mt-2">Stay tuned! Exciting events are being planned.</p>
+                    <a href="{% url 'enquiry' %}" class="inline-block mt-6 bg-indigo-600 text-white px-6 py-2 rounded-xl hover:bg-indigo-700 transition">Get notified</a>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- Testimonial & quick facts section -->
+        <section class="py-20 relative">
+            <div class="container mx-auto px-5 lg:px-8">
+                <div class="bg-gradient-to-r from-indigo-900 to-purple-800 rounded-3xl p-8 md:p-12 text-white shadow-2xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 opacity-10"><i class="fas fa-quote-right text-9xl"></i></div>
+                    <div class="relative z-10 grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <i class="fas fa-star text-yellow-300 text-3xl mb-4"></i>
+                            <p class="text-xl md:text-2xl font-medium leading-tight">“SNGCE transformed my perspective — the blend of academic rigor and industrial exposure is unmatched. Proud alumnus!”</p>
+                            <div class="mt-6 flex items-center gap-3">
+                                <div class="w-12 h-12 bg-white/30 rounded-full flex items-center justify-center"><i class="fas fa-user-graduate text-xl"></i></div>
+                                <div><strong>Aditya Menon</strong><br><span class="text-indigo-200 text-sm">CSE Alumnus, Microsoft</span></div>
+                            </div>
+                        </div>
+                        <div class="hidden md:block text-right">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-white/10 rounded-2xl p-4 text-center backdrop-blur-sm"><i class="fas fa-trophy text-3xl mb-2"></i><div class="font-bold">#Top 50</div><div class="text-xs">Engineering Colleges</div></div>
+                                <div class="bg-white/10 rounded-2xl p-4 text-center backdrop-blur-sm"><i class="fas fa-flask text-3xl mb-2"></i><div class="font-bold">35+</div><div class="text-xs">Patents filed</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA / Newsletter -->
+        <section class="py-16 bg-white">
+            <div class="container mx-auto px-5 lg:px-8 text-center">
+                <div class="max-w-2xl mx-auto">
+                    <h2 class="text-3xl font-bold text-gray-800">Stay informed with SNGCE</h2>
+                    <p class="text-gray-500 mt-2 mb-6">Subscribe to get updates on admissions, events, and campus news.</p>
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                        <input type="email" placeholder="Your email address" class="px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-400 outline-none w-full sm:w-72">
+                        <button class="btn-gradient text-white px-6 py-3 rounded-xl shadow-md transition-all font-medium">Subscribe <i class="fas fa-paper-plane ml-1"></i></button>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-3">No spam, unsubscribe anytime.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modern Footer with columns -->
+    <footer class="bg-gray-900 text-gray-300 pt-16 pb-8">
+        <div class="container mx-auto px-5 lg:px-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10 border-b border-gray-800 pb-12">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center"><i class="fas fa-graduation-cap text-white text-sm"></i></div>
+                        <h3 class="text-xl font-bold text-white">SNGCE</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">Sree Narayana Gurukulam College of Engineering — nurturing minds, building character, shaping tomorrow's leaders.</p>
+                    <div class="flex space-x-4 mt-5">
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="{% url 'h' %}" class="hover:text-indigo-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i>Home</a></li>
+                        <li><a href="{% url 'course' %}" class="hover:text-indigo-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i>Courses & Syllabus</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i>Admissions 2025</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i>Placement Cell</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Resources</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-indigo-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i>Library Portal</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i>LMS / E-Learning</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i>Student Grievance</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i>IQAC Reports</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Get in Touch</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex gap-3"><i class="fas fa-map-marker-alt mt-1 text-indigo-400"></i> Kolenchery, Ernakulam, Kerala - 682311</li>
+                        <li class="flex gap-3"><i class="fas fa-phone-alt mt-1 text-indigo-400"></i> +91 484 276 8800</li>
+                        <li class="flex gap-3"><i class="fas fa-envelope mt-1 text-indigo-400"></i> contact@sngce.ac.in</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-8 text-center text-gray-500 text-sm flex flex-col md:flex-row justify-between items-center gap-2">
+                <span>© 2025 SNGCE — All Rights Reserved. Designed with <i class="fas fa-heart text-rose-500"></i> for academic excellence.</span>
+                <div class="flex gap-6 text-xs">
+                    <a href="#" class="hover:text-white">Privacy Policy</a>
+                    <a href="#" class="hover:text-white">Terms of Use</a>
+                    <a href="#" class="hover:text-white">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile menu + smooth scroll -->
+    <script>
+        const menuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (menuBtn) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+        // smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === "#") return;
+                const target = document.querySelector(targetId);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

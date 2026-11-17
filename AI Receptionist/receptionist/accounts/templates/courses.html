@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>SNGCE - Academic Programs | Courses</title>
+    <link rel="shortcut icon" type="image/icon" href="{% static 'images/college_logo.jpg' %}">
+    
+    <!-- Tailwind + Google Fonts + Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        body {
+            background: #f9fafc;
+            scroll-behavior: smooth;
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .hero-glow {
+            background: radial-gradient(circle at 90% 10%, rgba(79, 70, 229, 0.08), rgba(6, 182, 212, 0.02));
+        }
+        .btn-gradient {
+            background: linear-gradient(105deg, #4f46e5 0%, #7c3aed 100%);
+            transition: all 0.25s ease;
+        }
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -12px rgba(79, 70, 229, 0.5);
+        }
+        .course-card {
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border-radius: 1.25rem;
+        }
+        .course-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
+        }
+        .section-badge {
+            background: rgba(79, 70, 229, 0.1);
+            backdrop-filter: blur(4px);
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up {
+            animation: fadeUp 0.5s ease forwards;
+        }
+        .delay-100 { animation-delay: 0.1s; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Sticky Glass Header -->
+    <header class="sticky top-0 z-50 glass-nav shadow-sm">
+        <div class="container mx-auto px-5 lg:px-8 py-4 flex flex-wrap justify-between items-center gap-3">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-xl overflow-hidden shadow-md bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                    <img src="{% static 'images/college_logo.jpg' %}" alt="Logo" class="w-full h-full object-cover">
+                </div>
+                <div class="leading-tight">
+                    <h1 class="text-xl lg:text-2xl font-extrabold tracking-tight text-gray-800">SNGCE</h1>
+                    <p class="text-xs text-gray-500 hidden sm:block">Sree Narayana Gurukulam College of Engg.</p>
+                </div>
+            </div>
+            <nav class="hidden md:block">
+                <ul class="flex items-center space-x-1 lg:space-x-2">
+                    <li><a href="{% url 'h' %}" class="px-4 py-2 rounded-full font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition">Home</a></li>
+                    <li><a href="{% url 'course' %}" class="px-4 py-2 rounded-full font-medium text-indigo-700 bg-indigo-50 shadow-sm transition">Courses</a></li>
+                    <li><a href="{% url 'bot' %}" class="px-4 py-2 rounded-full font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition"><i class="fas fa-headset text-indigo-500 mr-1"></i> Help</a></li>
+                    <li><a href="{% url 'enquiry' %}" class="ml-2 btn-gradient text-white px-5 py-2 rounded-full shadow-md transition-all"><i class="fas fa-pen-alt mr-1"></i> Enquire Now</a></li>
+                    <li><a href="{% url 'login' %}" class="border border-gray-300 hover:border-indigo-400 px-5 py-2 rounded-full text-gray-700 hover:bg-indigo-50 transition"><i class="fas fa-user-circle mr-1"></i> Login</a></li>
+                </ul>
+            </nav>
+            <!-- Mobile menu toggle -->
+            <div class="md:hidden">
+                <button id="mobileMenuBtn" class="text-gray-700 text-2xl focus:outline-none"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+        <!-- Mobile dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-100 py-4 px-5 shadow-lg">
+            <ul class="flex flex-col space-y-3">
+                <li><a href="{% url 'h' %}" class="block py-2 text-gray-800 font-medium"><i class="fas fa-home w-5 mr-2"></i>Home</a></li>
+                <li><a href="{% url 'course' %}" class="block py-2 text-indigo-700 font-medium"><i class="fas fa-book-open w-5 mr-2"></i>Courses</a></li>
+                <li><a href="{% url 'bot' %}" class="block py-2 text-gray-800 font-medium"><i class="fas fa-headset w-5 mr-2"></i>Help</a></li>
+                <li><a href="{% url 'enquiry' %}" class="block py-2 text-center bg-indigo-600 text-white rounded-xl mt-1">Enquire Now</a></li>
+                <li><a href="{% url 'login' %}" class="block py-2 text-center border border-gray-300 rounded-xl mt-1">Login</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section with gradient & breadcrumb -->
+        <section class="relative overflow-hidden hero-glow pt-10 pb-14 lg:pt-14 lg:pb-20">
+            <div class="absolute top-0 right-0 w-80 h-80 bg-indigo-200 rounded-full blur-3xl opacity-20 -z-0"></div>
+            <div class="absolute bottom-0 left-0 w-72 h-72 bg-purple-200 rounded-full blur-3xl opacity-20"></div>
+            <div class="container mx-auto px-5 lg:px-8 relative z-10">
+                <div class="max-w-3xl">
+                    <div class="flex items-center gap-2 text-sm text-gray-500 mb-4">
+                        <a href="{% url 'h' %}" class="hover:text-indigo-600"><i class="fas fa-home"></i> Home</a>
+                        <i class="fas fa-chevron-right text-xs"></i>
+                        <span class="text-indigo-700 font-medium">Academic Programs</span>
+                    </div>
+                    <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight">Explore Our <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Courses</span></h1>
+                    <p class="text-gray-600 text-lg mt-4 max-w-2xl">UG & PG programs affiliated to APJ Abdul Kalam Technological University — designed for industry readiness, research, and holistic development.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Undergraduate Programs Section -->
+        <section class="py-16 bg-white">
+            <div class="container mx-auto px-5 lg:px-8">
+                <div class="flex flex-wrap justify-between items-end border-b border-gray-200 pb-4 mb-10">
+                    <div>
+                        <span class="section-badge text-indigo-700 text-xs font-semibold px-3 py-1 rounded-full"><i class="fas fa-graduation-cap mr-1"></i> 8 Semesters | AICTE Approved</span>
+                        <h2 class="text-3xl font-bold text-gray-800 mt-3">Undergraduate Programs <span class="text-indigo-600">(B.Tech)</span></h2>
+                        <p class="text-gray-500 mt-1">Duration: 4 years | Full-time | Lateral entry available</p>
+                    </div>
+                    <div class="mt-3 lg:mt-0">
+                        <span class="text-sm text-gray-400"><i class="fas fa-chalkboard-user"></i> Total intake: 690+ seats</span>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
+                    <!-- Civil Engineering -->
+                    <div class="course-card bg-white p-6 rounded-2xl shadow-md border border-gray-100 hover:shadow-xl transition-all group">
+                        <div class="flex justify-between items-start">
+                            <div class="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700 text-xl"><i class="fas fa-hard-hat"></i></div>
+                            <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full">60 Seats</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-1">Civil Engineering</h3>
+                        <p class="text-gray-500 text-sm mb-3">B.Tech Program | Specializations: Structural, Environmental, Geotechnical</p>
+                        <div class="flex items-center gap-2 text-xs text-gray-400"><i class="fas fa-calendar-alt"></i> 8 Semesters <span class="w-1 h-1 bg-gray-300 rounded-full"></span> <i class="fas fa-microchip"></i> NBA Accredited</div>
+                    </div>
+
+                    <!-- Mechanical Engineering -->
+                    <div class="course-card bg-white p-6 rounded-2xl shadow-md border border-gray-100 hover:shadow-xl transition-all">
+                        <div class="flex justify-between items-start">
+                            <div class="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700 text-xl"><i class="fas fa-cogs"></i></div>
+                            <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full">60 Seats</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-1">Mechanical Engineering</h3>
+                        <p class="text-gray-500 text-sm mb-3">B.Tech Program | Thermal, Manufacturing, Robotics tracks</p>
+                        <div class="flex items-center gap-2 text-xs text-gray-400"><i class="fas fa-calendar-alt"></i> 8 Semesters <span class="w-1 h-1 bg-gray-300 rounded-full"></span> <i class="fas fa-tools"></i> Industry Labs</div>
+                    </div>
+
+                    <!-- Electrical and Electronics -->
+                    <div class="course-card bg-white p-6 rounded-2xl shadow-md border border-gray-100 hover:shadow-xl transition-all">
+                        <div class="flex justify-between items-start">
+                            <div class="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700 text-xl"><i class="fas fa-bolt"></i></div>
+                            <span class="bg-amber-100 text-amber-700 text-xs font-bold px-2.5 py-1 rounded-full">30 Seats</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-1">Electrical & Electronics Engg.</h3>
+                        <p class="text-gray-500 text-sm mb-3">B.Tech Program | Power Systems, Renewable Energy focus</p>
+                        <div class="flex items-center gap-2 text-xs text-gray-400"><i class="fas fa-calendar-alt"></i> 8 Semesters <span class="w-1 h-1 bg-gray-300 rounded-full"></span> <i class="fas fa-charging-station"></i> Smart Grid Lab</div>
+                    </div>
+
+                    <!-- Electronics and Communication -->
+                    <div class="course-card bg-white p-6 rounded-2xl shadow-md border border-gray-100 hover:shadow-xl transition-all">
+                        <div class="flex justify-between items-start">
+                            <div class="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700 text-xl"><i class="fas fa-microchip"></i></div>
+                            <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full">60 Seats</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-1">Electronics & Communication Engg.</h3>
+                        <p class="text-gray-500 text-sm mb-3">B.Tech Program | VLSI, Embedded Systems, IoT specialization</p>
+                        <div class="flex items-center gap-2 text-xs text-gray-400"><i class="fas fa-calendar-alt"></i> 8 Semesters <span class="w-1 h-1 bg-gray-300 rounded-full"></span> <i class="fas fa-wifi"></i> Advanced Comms Lab</div>
+                    </div>
+
+                    <!-- Computer Science and Engineering -->
+                    <div class="course-card bg-white p-6 rounded-2xl shadow-md border border-gray-100 hover:shadow-xl transition-all ring-1 ring-indigo-200">
+                        <div class="flex justify-between items-start">
+                            <div class="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700 text-xl"><i class="fas fa-laptop-code"></i></div>
+                            <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded-full">180 Seats</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-1">Computer Science & Engineering</h3>
+                        <p class="text-gray-500 text-sm mb-3">B.Tech Program | AI/ML, Full Stack, Data Science electives</p>
+                        <div class="flex items-center gap-2 text-xs text-gray-400"><i class="fas fa-calendar-alt"></i> 8 Semesters <span class="w-1 h-1 bg-gray-300 rounded-full"></span> <i class="fab fa-python"></i> Centre of Excellence</div>
+                    </div>
+
+                    <!-- Naval Architecture -->
+                    <div class="course-card bg-white p-6 rounded-2xl shadow-md border border-gray-100 hover:shadow-xl transition-all">
+                        <div class="flex justify-between items-start">
+                            <div class="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700 text-xl"><i class="fas fa-ship"></i></div>
+                            <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full">120 Seats</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-1">Naval Architecture & Ship Building</h3>
+                        <p class="text-gray-500 text-sm mb-3">B.Tech Program | Marine Engineering, Offshore structures</p>
+                        <div class="flex items-center gap-2 text-xs text-gray-400"><i class="fas fa-calendar-alt"></i> 8 Semesters <span class="w-1 h-1 bg-gray-300 rounded-full"></span> <i class="fas fa-water"></i> Industry Collaboration</div>
+                    </div>
+
+                    <!-- ECE VLSI -->
+                    <div class="course-card bg-white p-6 rounded-2xl shadow-md border border-gray-100 hover:shadow-xl transition-all">
+                        <div class="flex justify-between items-start">
+                            <div class="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700 text-xl"><i class="fas fa-chart-line"></i></div>
+                            <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full">60 Seats</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-1">ECE (VLSI Design & Technology)</h3>
+                        <p class="text-gray-500 text-sm mb-3">B.Tech Specialization | Chip design, FPGA, ASIC flows</p>
+                        <div class="flex items-center gap-2 text-xs text-gray-400"><i class="fas fa-calendar-alt"></i> 8 Semesters <span class="w-1 h-1 bg-gray-300 rounded-full"></span> <i class="fas fa-microchip"></i> Cadence Tools</div>
+                    </div>
+
+                    <!-- AI and Machine Learning -->
+                    <div class="course-card bg-white p-6 rounded-2xl shadow-md border border-gray-100 hover:shadow-xl transition-all">
+                        <div class="flex justify-between items-start">
+                            <div class="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700 text-xl"><i class="fas fa-brain"></i></div>
+                            <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full">60 Seats</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-1">Artificial Intelligence & ML</h3>
+                        <p class="text-gray-500 text-sm mb-3">B.Tech Program | Deep Learning, Computer Vision, NLP</p>
+                        <div class="flex items-center gap-2 text-xs text-gray-400"><i class="fas fa-calendar-alt"></i> 8 Semesters <span class="w-1 h-1 bg-gray-300 rounded-full"></span> <i class="fas fa-robot"></i> NVIDIA DLI Lab</div>
+                    </div>
+
+                    <!-- CSE Cyber Security -->
+                    <div class="course-card bg-white p-6 rounded-2xl shadow-md border border-gray-100 hover:shadow-xl transition-all">
+                        <div class="flex justify-between items-start">
+                            <div class="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700 text-xl"><i class="fas fa-shield-alt"></i></div>
+                            <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full">60 Seats</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-1">CSE (Cyber Security)</h3>
+                        <p class="text-gray-500 text-sm mb-3">B.Tech Specialization | Network Security, Digital Forensics, Ethical Hacking</p>
+                        <div class="flex items-center gap-2 text-xs text-gray-400"><i class="fas fa-calendar-alt"></i> 8 Semesters <span class="w-1 h-1 bg-gray-300 rounded-full"></span> <i class="fas fa-lock"></i> Security Operations Center</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Postgraduate Programs Section -->
+        <section class="py-16 bg-gray-50">
+            <div class="container mx-auto px-5 lg:px-8">
+                <div class="flex flex-wrap justify-between items-end border-b border-gray-200 pb-4 mb-10">
+                    <div>
+                        <span class="section-badge text-purple-700 text-xs font-semibold px-3 py-1 rounded-full"><i class="fas fa-flask"></i> 4 Semesters | Research Oriented</span>
+                        <h2 class="text-3xl font-bold text-gray-800 mt-3">Postgraduate Programs <span class="text-purple-600">(M.Tech / MBA / MCA)</span></h2>
+                        <p class="text-gray-500 mt-1">Advanced specializations with industry-aligned curriculum</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
+                    <!-- M.Tech Cyber Security -->
+                    <div class="course-card bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+                        <div class="flex justify-between items-start">
+                            <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-700 text-xl"><i class="fas fa-shield-virus"></i></div>
+                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2.5 py-1 rounded-full">9 Seats</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-1">M.Tech in Cyber Security</h3>
+                        <p class="text-gray-500 text-sm">Dept. of Computer Science & Engineering | Cryptography, Security Analytics</p>
+                    </div>
+
+                    <!-- M.Tech Structural Engineering -->
+                    <div class="course-card bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+                        <div class="flex justify-between items-start">
+                            <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-700 text-xl"><i class="fas fa-building"></i></div>
+                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2.5 py-1 rounded-full">18 Seats</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-1">M.Tech in Structural Engineering</h3>
+                        <p class="text-gray-500 text-sm">Civil Engineering | Advanced Concrete, Seismic Design, Bridge Engineering</p>
+                    </div>
+
+                    <!-- MBA -->
+                    <div class="course-card bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+                        <div class="flex justify-between items-start">
+                            <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-700 text-xl"><i class="fas fa-chart-pie"></i></div>
+                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2.5 py-1 rounded-full">120 Seats</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-1">Master of Business Administration (MBA)</h3>
+                        <p class="text-gray-500 text-sm">Marketing, Finance, HR, Business Analytics | Dual specialization option</p>
+                    </div>
+
+                    <!-- MCA -->
+                    <div class="course-card bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+                        <div class="flex justify-between items-start">
+                            <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-700 text-xl"><i class="fas fa-code"></i></div>
+                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2.5 py-1 rounded-full">90 Seats</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-1">Master of Computer Applications (MCA)</h3>
+                        <p class="text-gray-500 text-sm">Advanced Programming, Cloud Computing, Full Stack Development</p>
+                    </div>
+
+                    <!-- MBA Logistics -->
+                    <div class="course-card bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+                        <div class="flex justify-between items-start">
+                            <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-700 text-xl"><i class="fas fa-truck"></i></div>
+                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2.5 py-1 rounded-full">60 Seats</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-1">MBA in Logistics & Supply Chain</h3>
+                        <p class="text-gray-500 text-sm">Supply Chain Analytics, Port Management, Global Logistics</p>
+                    </div>
+
+                    <!-- Integrated MBA -->
+                    <div class="course-card bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+                        <div class="flex justify-between items-start">
+                            <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-700 text-xl"><i class="fas fa-chalkboard-user"></i></div>
+                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2.5 py-1 rounded-full">60 Seats</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-1">Integrated MBA (5 Years)</h3>
+                        <p class="text-gray-500 text-sm">Dual degree: BBA + MBA | Industry immersion, leadership track</p>
+                    </div>
+
+                    <!-- Integrated MCA -->
+                    <div class="course-card bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+                        <div class="flex justify-between items-start">
+                            <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-700 text-xl"><i class="fas fa-layer-group"></i></div>
+                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2.5 py-1 rounded-full">60 Seats</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-1">Integrated MCA (5 Years)</h3>
+                        <p class="text-gray-500 text-sm">BCA + MCA integrated | Specializations in Data Science & AI</p>
+                    </div>
+                </div>
+
+                <div class="mt-12 text-center bg-white/60 rounded-2xl p-6 border border-indigo-100">
+                    <p class="text-gray-700"><i class="fas fa-info-circle text-indigo-500 mr-2"></i> All PG programs are approved by AICTE and affiliated to APJ Abdul Kalam Technological University / Mahatma Gandhi University (as applicable). Research assistantships available.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Banner -->
+        <section class="py-16 bg-white">
+            <div class="container mx-auto px-5 lg:px-8 text-center">
+                <div class="max-w-3xl mx-auto bg-gradient-to-r from-indigo-50 to-purple-50 rounded-3xl p-8 shadow-md">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Ready to shape your future?</h2>
+                    <p class="text-gray-600 mt-2 mb-6">Get detailed syllabus, fee structure, and admission guidance.</p>
+                    <a href="{% url 'enquiry' %}" class="btn-gradient inline-flex items-center gap-2 text-white px-8 py-3 rounded-xl shadow-md hover:shadow-lg transition"><i class="fas fa-paper-plane"></i> Request Information</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modern Footer (matching home page) -->
+    <footer class="bg-gray-900 text-gray-300 pt-16 pb-8">
+        <div class="container mx-auto px-5 lg:px-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10 border-b border-gray-800 pb-12">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center"><i class="fas fa-graduation-cap text-white text-sm"></i></div>
+                        <h3 class="text-xl font-bold text-white">SNGCE</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">Sree Narayana Gurukulam College of Engineering — nurturing minds, building character, shaping tomorrow's leaders.</p>
+                    <div class="flex space-x-4 mt-5">
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="{% url 'h' %}" class="hover:text-indigo-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i>Home</a></li>
+                        <li><a href="{% url 'course' %}" class="hover:text-indigo-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i>Courses & Syllabus</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i>Admissions 2025</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i>Placement Cell</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Resources</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-indigo-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i>Library Portal</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i>LMS / E-Learning</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i>Student Grievance</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i>IQAC Reports</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold text-lg mb-4">Get in Touch</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex gap-3"><i class="fas fa-map-marker-alt mt-1 text-indigo-400"></i> Kolenchery, Ernakulam, Kerala - 682311</li>
+                        <li class="flex gap-3"><i class="fas fa-phone-alt mt-1 text-indigo-400"></i> +91 484 276 8800</li>
+                        <li class="flex gap-3"><i class="fas fa-envelope mt-1 text-indigo-400"></i> contact@sngce.ac.in</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-8 text-center text-gray-500 text-sm flex flex-col md:flex-row justify-between items-center gap-2">
+                <span>© 2025 SNGCE — All Rights Reserved. Designed with <i class="fas fa-heart text-rose-500"></i> for academic excellence.</span>
+                <div class="flex gap-6 text-xs">
+                    <a href="#" class="hover:text-white">Privacy Policy</a>
+                    <a href="#" class="hover:text-white">Terms of Use</a>
+                    <a href="#" class="hover:text-white">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile menu toggle script -->
+    <script>
+        const menuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (menuBtn) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+        // smooth scroll for any anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
